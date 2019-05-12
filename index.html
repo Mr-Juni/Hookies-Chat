@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="styles/style.css" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+</head>
+<body>
+
+<div class="home_access">
+	<h1>Hookies Chat</h1>
+	<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Join Chat</button>
+	<button onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Continue Chat</button>
+</div>
+<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01', 'error_1').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" id="join_chat">
+    <div class="container">
+      <h1>Join Chat</h1>
+      <p>Please fill in this form to create an account.</p>
+      <hr>
+      <label for="username"><b>Your Username</b></label>
+      <input type="text" placeholder="Enter Username" id="username_1" required>
+      <p id="error_1"></p>
+      <p>By creating an account you agree to our <a href="#" style="color:tomato">Terms & Privacy</a>.</p>
+
+      <div class="clearfix">
+        <button type="submit" class="signupbtn">Join Chat</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div id="id02" class="modal">
+  <span onclick="document.getElementById('id02', 'error_2').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" id="continue_chat">
+    <div class="container">
+      <h1>Continue Chat</h1>
+      <hr>
+      <label for="username"><b>Your Username</b></label>
+      <p id="error_2"></p>
+      <input type="text" placeholder="Enter Username" id="username_2" required>
+      <div class="clearfix">
+        <button type="submit" class="signupbtn">Continue</button>
+      </div>
+    </div>
+  </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+  $(document).ready(function(){
+    $(document).on('submit', '#join_chat', function (e) {
+        e.preventDefault();
+        var username = $("#username_1").val();
+
+        var check_firstLetter = username.charAt(0);
+        var convert_firsLetter = username.charAt(0).toLowerCase();
+
+        if (check_firstLetter !== convert_firsLetter) {
+          return alert("first letter must be a lowercase");
+        }
+           var settings = {
+              "url": "http://127.0.0.1:8000/api/name",
+              "method": "POST",
+              "timeout": 0,
+              "data": {
+                "username": username,
+              }
+            };
+          
+            $.ajax(settings).done(function (response) {
+              console.log(response);
+			  $("#error_1").css('display', 'block'); 
+              $("#error_1").html(response); 
+              $("#username_1").val(""); 
+
+              localStorage.setItem('username', response.data.user.username);
+              localStorage.setItem('token',response.data.user.api_token);
+
+              location.replace("chat.html");
+            });
+    
+     });
+
+     $(document).on('submit', '#continue_chat', function (e) {
+        e.preventDefault();
+        var username = $("#username_2").val();
+           var settings = {
+              "url": "http://127.0.0.1:8000/api/continue/chat",
+              "method": "POST",
+              "timeout": 0,
+              "data": {
+                "username": username,
+              }
+            };
+          
+            $.ajax(settings).done(function (response) {
+        
+              console.log(response);		
+			  $("#error_2").css('display', 'block'); 	          
+              $("#error_2").html(response); 
+              $("#username_2").val(""); 
+  
+               localStorage.setItem('username', response.data.user.username);
+               localStorage.setItem('token', response.data.user.api_token);
+
+               location.replace("chat.html");
+            });
+    
+     });
+
+  });
+</script>
+
+</body>
+</html>

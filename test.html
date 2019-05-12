@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Tryin something</title>
+    </head>
+    <body>
+       <h1>Chat With Socket</h1>
+         <div id="new_user_box">
+          A New User joined the chat...
+           <ul id='new_user'>
+                
+           </ul>
+         </div>
+         
+         
+        <div id="msg_box">
+           <ul id='show'>
+                
+           </ul>
+
+              <form class="form_input">
+                <input id="msg">
+                <button type="submit">Send</button>
+             </form>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+         <script type="text/javascript">
+          var socket = io('http://127.0.0.1:3000');  
+
+          $(document).ready(function(){
+
+            socket.on('signup-channel:App\\Events\\UserSignedUp', function(data) {
+              console.log(data);
+;                $("#new_user").html($("#new_user").html() +"<li>"+data.name+"</li>");
+            });
+
+            socket.on('message-channel:App\\Events\\MessageSent', function(data) {
+                console.log(data);
+                $("#show").html($("#show").html() +"<li>"+data.user+": "+data.message.text+"</li>");
+            });
+
+            $(document).on('submit', '.form_input', function (e) {
+                e.preventDefault();
+                var message = $("#msg").val();
+                   var settings = {
+                      "url": "http://127.0.0.1:8000/api/message",
+                      "method": "POST",
+                      "timeout": 0,
+                      "headers": {
+                        "Authorization": "Bearer 5118a68370cfb0f266147912aa8fddbb4071648e8549fdaa9dca037527a5a306",
+                        "Content-Type": "application/x-www-form-urlencoded"
+                      },
+                      "data": {
+                        "message": message,
+                      }
+                    };
+                    $("#msg").val(""); 
+                    $.ajax(settings).done(function (response) {
+                      console.log(response);
+                    });
+            
+        });
+
+          });
+
+         </script>
+
+
+          <style>
+    
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        font: 13px Helvitica, Arial;
+    }
+    form{
+        background: #000;
+        padding: 3px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    form input {
+        border: 0; padding: 10px;
+        width: 90%;
+        margin-right: .5%; 
+    }
+    form button {
+        width: 9%;
+        background: rgb(130,224,225);
+        border: none;
+        padding: 10px;
+    }
+    #show {
+        padding: 0;
+        margin: 0;
+    }
+    #show li {
+        padding: 5px 10px;
+    }
+    #show li:nth-child(odd) {
+        background: #eee;
+    }
+
+    </style>
+    </body>
+</html>

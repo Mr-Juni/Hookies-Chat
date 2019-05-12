@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="styles/chat.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
+
+        <title>Hookies</title>
+    </head>
+    <body>
+       <div class="home_access">
+        <div id="site_name">
+          <h3 id="site_name_hide">Hookies Chat</i></h3><label for="members_toggle"><h3><i class="fas fa-bars menu_icon_top"></i></h3></label>
+          <input type="checkbox" id="members_toggle" autocomplete="off">
+        </div>
+        <div id="head_spot">
+           <ul id="new_user"></ul>
+            <span id="username_top"></span>
+        </div>
+       </div>
+                     
+        <div id="msg_box">
+          <div id="all_member">
+               <div id="spin"> 
+                 <div class="spinner-border text-info"></div>
+              </div> 
+          </div>
+          <div id="msg_spot">
+            <div id="scroll_loader">
+              <div class="scroll_info">No More Chat history to load...</div>
+              <div class="spinner-border text-info messages"></div>
+            </div>
+            <!--Default Home Chat Page  -->
+            <section id="home">
+              <div id="welcome_info"> 
+                 <div id="welcome_msg">
+                   <div class="home_icon_view"><img src="icons/laugh.svg"></div>
+                   <h1>Welcome To Hookies Chat</h1>
+                   <p>Start a coversation with a member by clicking the left tab</p>
+                   <p>Have Fun...</p>
+                 </div>
+              </div>         
+            </section> 
+            <!--Group Chat display  -->
+            <section id="show">
+              <div id="spin"> 
+                 <div class="spinner-border text-info"></div>
+              </div>         
+            </section>           
+             <form class="form_input">
+              <input id="msg" placeholder="Type a message..." disabled>
+              <input type="hidden" id="offset">
+              <button id="send" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+             </form>
+          </div>          
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="js/connection.js"></script>
+        <script src="js/utility.js"></script>
+        
+
+          <style>
+    
+  
+    #identify_member {
+      color: green;
+    }
+  
+      #presence_on {
+        font-size: 10px;
+        position: absolute;
+        top: 4%;
+        left: 87%;
+        color: green;
+      }
+      #presence_away {
+        font-size: 10px;
+        position: absolute;
+        top: 4%;
+        left: 87%;
+        color: gold;
+      }
+      #presence_off {
+        font-size: 10px;
+        position: absolute;
+        top: 4%;
+        left: 87%;
+        color: tomato;
+      }
+    </style>
+    </body>
+</html>
